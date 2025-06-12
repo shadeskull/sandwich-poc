@@ -13,21 +13,21 @@ const schema = a.schema({
   Bread: a
     .model({
       name: a.string(),
-      description: a.string().optional(),
+      description: a.string(),
     })
     .authorization((allow) => [allow.publicApiKey()]),
   
   Ingredient: a
     .model({
       name: a.string(),
-      description: a.string().optional(),
+      description: a.string(),
     })
     .authorization((allow) => [allow.publicApiKey()]),
   
   Sauce: a
     .model({
       name: a.string(),
-      description: a.string().optional(),
+      description: a.string(),
     })
     .authorization((allow) => [allow.publicApiKey()]),
   
@@ -36,7 +36,7 @@ const schema = a.schema({
       name: a.string(),
       breadId: a.string(),
       ingredients: a.string().array(),
-      sauceId: a.string().optional(),
+      sauceId: a.string(),
     })
     .authorization((allow) => [allow.publicApiKey()]),
 });
