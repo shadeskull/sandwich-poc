@@ -121,8 +121,165 @@ function App() {
 
   // UI rendering with styled components for sandwich creation and display
   return (
-    // Main layout with sandwich creation form, list of created sandwiches,
-    // and legacy todo section
+    <main style={{ padding: "20px", maxWidth: "800px", margin: "0 auto" }}>
+      <h1>Sandwich Creator</h1>
+      
+      <div style={{ 
+        border: "1px solid #ddd", 
+        borderRadius: "8px", 
+        padding: "20px",
+        marginBottom: "20px" 
+      }}>
+        <h2>Create Your Sandwich</h2>
+        
+        {/* Sandwich name */}
+        <div style={{ marginBottom: "15px" }}>
+          <label style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>
+            Sandwich Name:
+          </label>
+          <input 
+            type="text" 
+            value={sandwichName}
+            onChange={(e) => setSandwichName(e.target.value)}
+            style={{ width: "100%", padding: "8px" }}
+          />
+        </div>
+        
+        {/* Bread selection */}
+        <div style={{ marginBottom: "15px" }}>
+          <label style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>
+            Select Bread:
+          </label>
+          <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
+            {breads.map((bread) => (
+              <div 
+                key={bread.id}
+                onClick={() => setSelectedBread(bread.id)}
+                style={{ 
+                  padding: "8px 16px",
+                  border: "1px solid #ddd",
+                  borderRadius: "4px",
+                  cursor: "pointer",
+                  background: selectedBread === bread.id ? "#e6f7ff" : "white"
+                }}
+              >
+                {bread.name}
+              </div>
+            ))}
+          </div>
+        </div>
+        
+        {/* Ingredients selection */}
+        <div style={{ marginBottom: "15px" }}>
+          <label style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>
+            Select Ingredients:
+          </label>
+          <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
+            {ingredients.map((ingredient) => (
+              <div 
+                key={ingredient.id}
+                onClick={() => toggleIngredient(ingredient.id)}
+                style={{ 
+                  padding: "8px 16px",
+                  border: "1px solid #ddd",
+                  borderRadius: "4px",
+                  cursor: "pointer",
+                  background: selectedIngredients.includes(ingredient.id) ? "#e6f7ff" : "white"
+                }}
+              >
+                {ingredient.name}
+              </div>
+            ))}
+          </div>
+        </div>
+        
+        {/* Sauce selection */}
+        <div style={{ marginBottom: "15px" }}>
+          <label style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>
+            Select Sauce (Optional):
+          </label>
+          <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
+            {sauces.map((sauce) => (
+              <div 
+                key={sauce.id}
+                onClick={() => setSelectedSauce(sauce.id === selectedSauce ? "" : sauce.id)}
+                style={{ 
+                  padding: "8px 16px",
+                  border: "1px solid #ddd",
+                  borderRadius: "4px",
+                  cursor: "pointer",
+                  background: selectedSauce === sauce.id ? "#e6f7ff" : "white"
+                }}
+              >
+                {sauce.name}
+              </div>
+            ))}
+          </div>
+        </div>
+        
+        {/* Create button */}
+        <button 
+          onClick={createSandwich}
+          style={{ 
+            padding: "10px 20px", 
+            background: "#1890ff", 
+            color: "white", 
+            border: "none",
+            borderRadius: "4px",
+            cursor: "pointer"
+          }}
+        >
+          Create Sandwich
+        </button>
+      </div>
+      
+      {/* Display created sandwiches */}
+      <div>
+        <h2>Your Sandwiches</h2>
+        {sandwiches.length === 0 ? (
+          <p>No sandwiches created yet. Create your first sandwich above!</p>
+        ) : (
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: "15px" }}>
+            {sandwiches.map((sandwich) => {
+              const breadName = breads.find(b => b.id === sandwich.breadId)?.name || "Unknown bread";
+              const ingredientNames = ingredients
+                .filter(i => sandwich.ingredients && sandwich.ingredients.includes(i.id))
+                .map(i => i.name)
+                .join(", ");
+              const sauceName = sauces.find(s => s.id === sandwich.sauceId)?.name;
+              
+              return (
+                <div 
+                  key={sandwich.id}
+                  style={{ 
+                    border: "1px solid #ddd", 
+                    borderRadius: "8px", 
+                    padding: "15px",
+                    background: "#f9f9f9"
+                  }}
+                >
+                  <h3 style={{ margin: "0 0 10px 0" }}>{sandwich.name}</h3>
+                  <p><strong>Bread:</strong> {breadName}</p>
+                  <p><strong>Ingredients:</strong> {ingredientNames}</p>
+                  {sauceName && <p><strong>Sauce:</strong> {sauceName}</p>}
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
+      
+      {/* Original Todo section (kept for compatibility) */}
+      <div style={{ marginTop: "40px", borderTop: "1px solid #ddd", paddingTop: "20px" }}>
+        <h2>My todos</h2>
+        <button onClick={createTodo}>+ new</button>
+        <ul>
+          {todos.map((todo) => (
+            <li key={todo.id}>{todo.content}</li>
+          ))}
+        </ul>
+      </div>
+    </main>
   );
 }
 
