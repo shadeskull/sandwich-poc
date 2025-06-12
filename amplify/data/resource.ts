@@ -1,15 +1,42 @@
 import { type ClientSchema, a, defineData } from "@aws-amplify/backend";
 
 /*== STEP 1 ===============================================================
-The section below creates a Todo database table with a "content" field. Try
-adding a new "isDone" field as a boolean. The authorization rule below
-specifies that any user authenticated via an API key can "create", "read",
-"update", and "delete" any "Todo" records.
+Schema for sandwich creation app with bread, ingredients, and sauce options
 =========================================================================*/
 const schema = a.schema({
   Todo: a
     .model({
       content: a.string(),
+    })
+    .authorization((allow) => [allow.publicApiKey()]),
+  
+  Bread: a
+    .model({
+      name: a.string(),
+      description: a.string().optional(),
+    })
+    .authorization((allow) => [allow.publicApiKey()]),
+  
+  Ingredient: a
+    .model({
+      name: a.string(),
+      description: a.string().optional(),
+    })
+    .authorization((allow) => [allow.publicApiKey()]),
+  
+  Sauce: a
+    .model({
+      name: a.string(),
+      description: a.string().optional(),
+    })
+    .authorization((allow) => [allow.publicApiKey()]),
+  
+  Sandwich: a
+    .model({
+      name: a.string(),
+      breadId: a.string(),
+      ingredients: a.string().array(),
+      sauceId: a.string().optional(),
     })
     .authorization((allow) => [allow.publicApiKey()]),
 });
