@@ -246,7 +246,7 @@ function App() {
             {sandwiches.map((sandwich) => {
               const breadName = breads.find(b => b.id === sandwich.breadId)?.name || "Unknown bread";
               const ingredientNames = ingredients
-                .filter(i => sandwich.ingredients.includes(i.id))
+                .filter(i => sandwich.ingredients && sandwich.ingredients.includes(i.id))
                 .map(i => i.name)
                 .join(", ");
               const sauceName = sauces.find(s => s.id === sandwich.sauceId)?.name;
