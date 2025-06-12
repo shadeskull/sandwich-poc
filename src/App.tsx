@@ -128,7 +128,9 @@ function App() {
         border: "1px solid #ddd", 
         borderRadius: "8px", 
         padding: "20px",
-        marginBottom: "20px" 
+        marginBottom: "20px", 
+        height:"2000px",
+        overflow:"auto"
       }}>
         <h2>Create Your Sandwich</h2>
         
