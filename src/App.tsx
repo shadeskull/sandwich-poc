@@ -121,16 +121,14 @@ function App() {
 
   // UI rendering with styled components for sandwich creation and display
   return (
-    <main style={{ padding: "20px", maxWidth: "800px", margin: "0 auto" }}>
+    <main style={{ padding: "20px", maxWidth: "800px", margin: "0 auto", overflow-y: "auto"}}>
       <h1>Sandwich Creator</h1>
       
       <div style={{ 
         border: "1px solid #ddd", 
         borderRadius: "8px", 
         padding: "20px",
-        marginBottom: "20px", 
-        height:"2000px",
-        overflow:"auto"
+        marginBottom: "20px" 
       }}>
         <h2>Create Your Sandwich</h2>
         
