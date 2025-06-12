@@ -410,7 +410,7 @@ function App() {
       padding: "20px", 
       maxWidth: "800px", 
       margin: "0 auto",
-      height: "100vh",
+      height: "1000vh",
       overflowY: "auto"
     }}>
       <h1>Sandwich Creator</h1>
