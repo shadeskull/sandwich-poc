@@ -23,7 +23,7 @@ function App() {
   const [sandwichName, setSandwichName] = useState<string>("");
 
   // Legacy todo state
-  const [todos, setTodos] = useState<Array<Schema["Todo"]["type"]>>([]);
+  //const [todos, setTodos] = useState<Array<Schema["Todo"]["type"]>>([]);
 
   // Function to create initial sample data
   const createSampleData = async () => {
@@ -60,9 +60,9 @@ function App() {
   // useEffect hook to load data and create sample data when component mounts
   useEffect(() => {
     // Subscribe to real-time updates for all data models
-    client.models.Todo.observeQuery().subscribe({
-      next: (data) => setTodos([...data.items]),
-    });
+   // client.models.Todo.observeQuery().subscribe({
+    //  next: (data) => setTodos([...data.items]),
+    //});
 
     client.models.Bread.observeQuery().subscribe({
       next: async (data) => {
@@ -92,9 +92,9 @@ function App() {
   }, []);
 
   // Legacy todo creation function
-  function createTodo() {
-    client.models.Todo.create({ content: window.prompt("Todo content") });
-  }
+ // function createTodo() {
+  //  client.models.Todo.create({ content: window.prompt("Todo content") });
+  //}
 
   // Toggle ingredient selection
   function toggleIngredient(id: string) {
@@ -297,7 +297,7 @@ function App() {
         )}
       </div>
       
-      {/* Original Todo section (kept for compatibility) */}
+      {/* Original Todo section (kept for compatibility) 
       <div style={{ marginTop: "40px", borderTop: "1px solid #ddd", paddingTop: "20px" }}>
         <h2>My todos</h2>
         <button onClick={createTodo}>+ new</button>
@@ -307,6 +307,7 @@ function App() {
           ))}
         </ul>
       </div>
+      */}
     </main>
   );
 }
