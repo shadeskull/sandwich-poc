@@ -25,6 +25,38 @@ function App() {
   // Legacy todo state
   const [todos, setTodos] = useState<Array<Schema["Todo"]["type"]>>([]);
 
+  // Function to create initial sample data
+  const createSampleData = async () => {
+    // Create sample breads
+    const breadPromises = [
+      client.models.Bread.create({ name: "White Bread" }),
+      client.models.Bread.create({ name: "Wheat Bread" }),
+      client.models.Bread.create({ name: "Sourdough" })
+    ];
+    
+    // Create sample ingredients
+    const ingredientPromises = [
+      client.models.Ingredient.create({ name: "Lettuce" }),
+      client.models.Ingredient.create({ name: "Tomato" }),
+      client.models.Ingredient.create({ name: "Cheese" }),
+      client.models.Ingredient.create({ name: "Ham" }),
+      client.models.Ingredient.create({ name: "Turkey" })
+    ];
+
+    // Create sample sauces
+    const saucePromises = [
+      client.models.Sauce.create({ name: "Mayo" }),
+      client.models.Sauce.create({ name: "Mustard" }),
+      client.models.Sauce.create({ name: "Ranch" })
+    ];
+
+    try {
+      await Promise.all([...breadPromises, ...ingredientPromises, ...saucePromises]);
+    } catch (error) {
+      console.error("Error creating sample data:", error);
+    }
+  };
+
   // useEffect hook to load data and create sample data when component mounts
   useEffect(() => {
     // Subscribe to real-time updates for all data models
@@ -35,38 +67,22 @@ function App() {
     client.models.Bread.observeQuery().subscribe({
       next: async (data) => {
         setBreads([...data.items]);
-        // Create sample breads if none exist
+        // Create sample data if no data exists
         if (data.items.length === 0) {
-          await client.models.Bread.create({ name: "White Bread" });
-          await client.models.Bread.create({ name: "Wheat Bread" });
-          await client.models.Bread.create({ name: "Sourdough" });
+          await createSampleData();
         }
       }, 
     });
 
     client.models.Ingredient.observeQuery().subscribe({
-      next: async (data) => {
+      next: (data) => {
         setIngredients([...data.items]);
-        // Create sample ingredients if none exist
-        if (data.items.length === 0) {
-          await client.models.Ingredient.create({ name: "Lettuce" });
-          await client.models.Ingredient.create({ name: "Tomato" });
-          await client.models.Ingredient.create({ name: "Cheese" });
-          await client.models.Ingredient.create({ name: "Ham" });
-          await client.models.Ingredient.create({ name: "Turkey" });
-        }
       },
     });
 
     client.models.Sauce.observeQuery().subscribe({
-      next: async (data) => {
+      next: (data) => {
         setSauces([...data.items]);
-        // Create sample sauces if none exist
-        if (data.items.length === 0) {
-          await client.models.Sauce.create({ name: "Mayo" });
-          await client.models.Sauce.create({ name: "Mustard" });
-          await client.models.Sauce.create({ name: "Ranch" });
-        }
       },
     });
 
@@ -151,21 +167,25 @@ function App() {
             Select Bread:
           </label>
           <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
-            {breads.map((bread) => (
-              <div 
-                key={bread.id}
-                onClick={() => setSelectedBread(bread.id)}
-                style={{ 
-                  padding: "8px 16px",
-                  border: "1px solid #ddd",
-                  borderRadius: "4px",
-                  cursor: "pointer",
-                  background: selectedBread === bread.id ? "#e6f7ff" : "white"
-                }}
-              >
-                {bread.name}
-              </div>
-            ))}
+            {breads.length > 0 ? (
+              breads.map((bread) => (
+                <div 
+                  key={bread.id}
+                  onClick={() => setSelectedBread(bread.id)}
+                  style={{ 
+                    padding: "8px 16px",
+                    border: "1px solid #ddd",
+                    borderRadius: "4px",
+                    cursor: "pointer",
+                    background: selectedBread === bread.id ? "#e6f7ff" : "white"
+                  }}
+                >
+                  {bread.name}
+                </div>
+              ))
+            ) : (
+              <div>Loading bread options...</div>
+            )}
           </div>
         </div>
         
@@ -175,7 +195,7 @@ function App() {
             Select Ingredients:
           </label>
           <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
-            {ingredients && ingredients.length > 0 ? (
+            {ingredients.length > 0 ? (
               ingredients.map((ingredient) => (
                 <div 
                   key={ingredient.id}
@@ -192,7 +212,7 @@ function App() {
                 </div>
               ))
             ) : (
-              <div>No ingredients available</div>
+              <div>Loading ingredient options...</div>
             )}
           </div>
         </div>
@@ -203,21 +223,25 @@ function App() {
             Select Sauce (Optional):
           </label>
           <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
-            {sauces.map((sauce) => (
-              <div 
-                key={sauce.id}
-                onClick={() => setSelectedSauce(sauce.id === selectedSauce ? "" : sauce.id)}
-                style={{ 
-                  padding: "8px 16px",
-                  border: "1px solid #ddd",
-                  borderRadius: "4px",
-                  cursor: "pointer",
-                  background: selectedSauce === sauce.id ? "#e6f7ff" : "white"
-                }}
-              >
-                {sauce.name}
-              </div>
-            ))}
+            {sauces.length > 0 ? (
+              sauces.map((sauce) => (
+                <div 
+                  key={sauce.id}
+                  onClick={() => setSelectedSauce(sauce.id === selectedSauce ? "" : sauce.id)}
+                  style={{ 
+                    padding: "8px 16px",
+                    border: "1px solid #ddd",
+                    borderRadius: "4px",
+                    cursor: "pointer",
+                    background: selectedSauce === sauce.id ? "#e6f7ff" : "white"
+                  }}
+                >
+                  {sauce.name}
+                </div>
+              ))
+            ) : (
+              <div>Loading sauce options...</div>
+            )}
           </div>
         </div>
         
