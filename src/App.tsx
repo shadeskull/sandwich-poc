@@ -69,7 +69,7 @@ function App() {
         console.log("Loaded breads:", data.items);
         setBreads([...data.items]);
         // Create sample data if no data exists
-        if (data.items.length === 0) {
+        if (!data.items || data.items.length === 0) {
           console.log("No bread data found, creating sample data");
           await createSampleData();
         }
