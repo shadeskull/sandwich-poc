@@ -66,23 +66,27 @@ function App() {
 
     client.models.Bread.observeQuery().subscribe({
       next: async (data) => {
+        console.log("Loaded breads:", data.items);
         setBreads([...data.items]);
         // Create sample data if no data exists
-      //  if (data.items.length === 0) {
+        if (data.items.length === 0) {
+          console.log("No bread data found, creating sample data");
           await createSampleData();
-       // }
+        }
       }, 
     });
 
     client.models.Ingredient.observeQuery().subscribe({
       next: (data) => {
         setIngredients([...data.items]);
+        console.log("Loaded ingredients:", data.items);
       },
     });
 
     client.models.Sauce.observeQuery().subscribe({
       next: (data) => {
         setSauces([...data.items]);
+        console.log("Loaded sauces:", data.items);
       },
     });
 
@@ -184,27 +188,8 @@ function App() {
                 </div>
               ))
             ) : (
-              <div>
-              {breads.length === 0 && !selectedBread ? (
-                <div>Loading bread options...</div>
-              ) : (
-                breads.map((bread) => (
-                  <div 
-                    key={bread.id}
-                    onClick={() => setSelectedBread(bread.id)}
-                    style={{ 
-                      padding: "8px 16px",
-                      border: "1px solid #ddd",
-                      borderRadius: "4px", 
-                      cursor: "pointer",
-                      background: selectedBread === bread.id ? "#e6f7ff" : "white"
-                    }}
-                  >
-                    {bread.name}
-                  </div>
-                ))
-              )}
-            </div>            )}
+              <div>Loading bread options...</div>
+            )}
           </div>
         </div>
         
