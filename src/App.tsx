@@ -121,7 +121,7 @@ function App() {
 
   // UI rendering with styled components for sandwich creation and display
   return (
-    <main style={{ padding: "20px", maxWidth: "800px", margin: "0 auto", overflow-y: "auto"}}>
+    <main style={{ padding: "20px", maxWidth: "800px", margin: "0 auto"}}>
       <h1>Sandwich Creator</h1>
       
       <div style={{ 
@@ -175,21 +175,25 @@ function App() {
             Select Ingredients:
           </label>
           <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
-            {ingredients.map((ingredient) => (
-              <div 
-                key={ingredient.id}
-                onClick={() => toggleIngredient(ingredient.id)}
-                style={{ 
-                  padding: "8px 16px",
-                  border: "1px solid #ddd",
-                  borderRadius: "4px",
-                  cursor: "pointer",
-                  background: selectedIngredients.includes(ingredient.id) ? "#e6f7ff" : "white"
-                }}
-              >
-                {ingredient.name}
-              </div>
-            ))}
+            {ingredients && ingredients.length > 0 ? (
+              ingredients.map((ingredient) => (
+                <div 
+                  key={ingredient.id}
+                  onClick={() => toggleIngredient(ingredient.id)}
+                  style={{ 
+                    padding: "8px 16px",
+                    border: "1px solid #ddd",
+                    borderRadius: "4px",
+                    cursor: "pointer",
+                    background: selectedIngredients.includes(ingredient.id) ? "#e6f7ff" : "white"
+                  }}
+                >
+                  {ingredient.name}
+                </div>
+              ))
+            ) : (
+              <div>No ingredients available</div>
+            )}
           </div>
         </div>
         
