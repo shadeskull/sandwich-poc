@@ -68,9 +68,9 @@ function App() {
       next: async (data) => {
         setBreads([...data.items]);
         // Create sample data if no data exists
-        if (data.items.length === 0) {
+      //  if (data.items.length === 0) {
           await createSampleData();
-        }
+       // }
       }, 
     });
 
