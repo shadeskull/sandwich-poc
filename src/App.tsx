@@ -184,8 +184,27 @@ function App() {
                 </div>
               ))
             ) : (
-              <div>Loading bread options...</div>
-            )}
+              <div>
+              {breads.length === 0 && !selectedBread ? (
+                <div>Loading bread options...</div>
+              ) : (
+                breads.map((bread) => (
+                  <div 
+                    key={bread.id}
+                    onClick={() => setSelectedBread(bread.id)}
+                    style={{ 
+                      padding: "8px 16px",
+                      border: "1px solid #ddd",
+                      borderRadius: "4px", 
+                      cursor: "pointer",
+                      background: selectedBread === bread.id ? "#e6f7ff" : "white"
+                    }}
+                  >
+                    {bread.name}
+                  </div>
+                ))
+              )}
+            </div>            )}
           </div>
         </div>
         
